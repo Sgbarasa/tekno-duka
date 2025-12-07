@@ -30,12 +30,15 @@ class TechProduct(Base):
 
 class TechOrder(Base):
     __tablename__ = "orders"
-
+    
     id = Column(Integer, primary_key=True, index=True)
-    quantity = Column(Integer)
-
+    
     product_id = Column(Integer, ForeignKey("products.id"))
-    product = relationship("TechProduct", back_populates="orders")
+    quantity = Column(Integer, default=1)
 
-    customer_name = Column(String)
-    customer_email = Column(String)
+    # customer info + order status
+    customer_name = Column(String, nullable=True)
+    customer_email = Column(String, nullable=True)
+    status = Column(String, default="Pending")
+
+    product = relationship("TechProduct", back_populates="orders") 

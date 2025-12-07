@@ -77,18 +77,26 @@ def initialize_data(db: Session):
     db.add_all(sample_products)
     db.commit()
 
+    # Refresh each product so they have ids
+    for prod in sample_products:
+        db.refresh(prod)
+
+    # --------------------------
+    # 3. CREATE EXAMPLE ORDERS
+    # --------------------------
+    # Use sample_products list (not an undefined 'products' var)
     orders = [
         models.TechOrder(
             quantity=1,
             status="Pending",
-            product_id=products[0].id,
+            product_id=sample_products[0].id,
             customer_name="John Doe",
             customer_email="john@example.com"
         ),
         models.TechOrder(
             quantity=2,
             status="Shipped",
-            product_id=products[2].id,
+            product_id=sample_products[2].id,
             customer_name="Alice Smith",
             customer_email="alice@example.com"
         )
